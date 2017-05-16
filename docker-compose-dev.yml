@@ -1,0 +1,74 @@
+version: "3"
+services:
+  mongo:
+    build: ./db
+    ports:
+      - "27018:27017"
+    networks:
+      - backend
+    volumes:
+      - db-data:/data/db/
+  redadalertas-api:
+    build: ./redadalertas-api
+    command: npm run docker-dev
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - mongo
+    volumes:
+      - ./redadalertas-api/src:/app
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=API]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+  redadalertas-client:
+    build: ./redadalertas
+    command: npm start
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - redadalertas-api
+    volumes:
+      - ./redadalertas:/app
+    ports:
+      - "3000:3000"
+    deploy:
+      mode: replicated
+      replicas: 2
+      labels: [APP=CLIENT]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+  # visualizer:
+  #   image: dockersamples/visualizer:stable
+  #   ports:
+  #     - "8082:8080"
+  #   stop_grace_period: 1m30s
+  #   volumes:
+  #     - "/var/run/docker.sock:/var/run/docker.sock"
+  #   deploy:
+  #     placement:
+  #       constraints: [node.role == manager]
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
