@@ -2,9 +2,9 @@
 
 echo "Setting up Redadalertas Docker Stack..."
 
-read -p "Enter the url of your 'redadalertas' clone: " CLIENT_URL
+read -p "Enter the url of your 'redadalertas' fork: " CLIENT_URL
 
-read -p "Enter the url of your 'redadalertas-api' clone: " SERVER_URL
+read -p "Enter the url of your 'redadalertas-api' fork: " SERVER_URL
 
 echo "Client Url: $CLIENT_URL"
 
