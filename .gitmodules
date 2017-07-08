@@ -1,6 +1,3 @@
-[submodule "redadalertas"]
-	path = redadalertas
-	url = https://github.com/Cosecha/redadalertas.git
 [submodule "redadalertas-api"]
 	path = redadalertas-api
 	url = https://github.com/Cosecha/redadalertas-api.git
