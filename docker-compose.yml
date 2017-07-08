@@ -10,14 +10,14 @@ services:
       - db-data:/data/db/
   redadalertas-api:
     build: ./redadalertas-api
-    command: npm run docker-dev
+    command: yarn run docker-dev
     networks:
       - backend
       - frontend
     depends_on:
       - mongo
     volumes:
-      - ./redadalertas-api/src:/app
+      - ./redadalertas-api:/app
     ports:
       - "8080:8080"
     links:
@@ -35,7 +35,7 @@ services:
         constraints: [node.role == manager]
   redadalertas-client:
     build: ./redadalertas
-    command: npm start
+    command: yarn start
     networks:
       - frontend
       - backend
