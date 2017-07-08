@@ -17,7 +17,7 @@ services:
     depends_on:
       - mongo
     volumes:
-      - ./redadalertas-api:/app
+      - ./redadalertas-api/src:/app
     ports:
       - "8080:8080"
     links:
